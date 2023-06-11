@@ -6,13 +6,17 @@ import { Link } from "react-router-dom";
 import DarkmodeToggle from "./DarkmodeToggle";
 import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-toastify";
+import useCarts from "../../hooks/useCarts";
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
+  console.log(user)
+  const [cart, isLoading, refetch] = useCarts()
   //TODO: DARK MODE WORK
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
+  console.log(cart)
   useEffect(() => {
     localStorage.setItem("theme", theme);
     const localTheme = localStorage.getItem("theme");
@@ -49,7 +53,7 @@ const NavBar = () => {
       {user && (
         <li className="">
           <Link to="/dashboard">
-           Dashboard
+           Dashboard +{cart?.length || 0}
           </Link>
         </li>
       )}

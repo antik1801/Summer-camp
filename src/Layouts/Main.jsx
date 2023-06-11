@@ -18,11 +18,11 @@ const Main = () => {
   }, [loc]);
   return (
     <div>
-      <Container>
+        <Container>
         <NavBar></NavBar>
         <Outlet></Outlet>
         <Footer></Footer>
-      </Container>
+        </Container>
     </div>
   );
 };
