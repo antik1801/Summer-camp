@@ -27,6 +27,7 @@ const SocialLogin = () => {
                    
                     navigate(from,{replace:true})
                   }
+                  navigate(from,{replace:true})
                 });
             console.log(loggedInUser);
             

@@ -10,6 +10,10 @@ import Dashboard from "../Layouts/Dashboard";
 import Myclasses from "../Pages/Dashboard/User/Myclasses";
 import MyEnrolledClasses from "../Pages/Dashboard/User/MyEnrolledClasses";
 import MyPaymentHistory from "../Pages/Dashboard/User/MyPaymentHistory";
+import InstructorClasses from "../Pages/Dashboard/Instructor/InstructorClasses";
+import AddClass from "../Pages/Dashboard/Instructor/AddClass";
+import ManageClasses from "../Pages/Dashboard/Admin/ManageClasses";
+import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +53,22 @@ const router = createBrowserRouter([
           {
             path:"paymentHistory",
             element: <MyPaymentHistory></MyPaymentHistory>
+          },
+          {
+            path:"instructorClasses",
+            element: <InstructorClasses></InstructorClasses>
+          },
+          {
+            path:"instructorAddClass",
+            element:<AddClass></AddClass>
+          },
+          {
+            path:"manageClasses",
+            element:<ManageClasses></ManageClasses>,
+          },
+          {
+            path:"manageUsers",
+            element:<ManageUsers></ManageUsers>
           },
         ],
       },
