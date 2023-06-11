@@ -7,6 +7,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from 'react-toastify';
 import Loader from "../../components/Shared/Loader";
 import Swal from "sweetalert2";
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 
 const Login = () => {
   const {signIn,loading,setLoading} = useContext(AuthContext);
@@ -121,6 +122,7 @@ const Login = () => {
               New in MEDLAND? please <Link to="/signup"> <span className="text-xl text-orange-600">Signup now</span></Link>
             </a>
           </label>
+            <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>

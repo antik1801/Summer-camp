@@ -1,15 +1,21 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { AuthContext } from "../../providers/AuthProvider";
 import Loader from "../../components/Shared/Loader";
-const img_hosting_token= import.meta.env.VITE_img_api_key
+const img_hosting_token = import.meta.env.VITE_img_api_key;
 
 const Signup = () => {
-  const {createUser,loading,setLoading,updateUserProfile} = useContext(AuthContext);
-  const { register,reset, formState: { errors }, handleSubmit } = useForm();
-  const image_hosting_url=`https://api.imgbb.com/1/upload?key=${img_hosting_token}`
+  const { createUser, loading, setLoading, updateUserProfile, user } =
+    useContext(AuthContext);
+  const {
+    register,
+    reset,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
   const navigate = useNavigate();
   // console.log(image_hosting_url)
   const onSubmit = (data) => {
@@ -29,44 +35,62 @@ const Signup = () => {
     //     toast.error(error.message)
     // })
     if (data.password !== data.confirm) {
-      return toast.error("password & confirm password are not same")
+      return toast.error("password & confirm password are not same");
     }
+    const email = data.email;
+    const password = data.password;
     const photo = data.photo;
     const name = data.name;
-    console.log(photo,name)
-    createUser(data.email,data.password)
-    .then(result=>{
-      reset();
-      const loggedUser = result.user;
-      updateUserProfile(loggedUser,name,photo)
-      .then(()=>{
-        toast.success('User successfully created')
-        useNavigate("/");
+    // console.log(photo,name)
+    // return console.log(data.email,data.password);
+
+    createUser(email,password)
+      .then((result) => {
+        // return console.log(result)
+        // reset();
+        const user = result.user;
+        updateUserProfile(user, name, photo)
+          .then(() => {
+            const savedUser = { name: data.name, email: data.email, role:"user" };
+            fetch("https://medlife-server-navy.vercel.app/users", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(savedUser),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+                if (data.insertedId) {
+                  reset();
+                  toast.success("User successfully created");
+                  navigate('/')
+                }
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.error(error.message);
+          });
       })
-      .catch(error=>{
+      .catch((error) => {
         console.log(error)
-        toast.error(error.message)
-      })
-
-    })
-    .catch(error=>{
-
-      setLoading(false)
-      toast.error(error.message)
-      console.log(error)
-      navigate("/")
-    })
+        // setLoading(false);
+        toast.error(error.message);
+        // console.log(error);
+        // navigate("/");
+      });
     console.log(data);
 
     // name photo
 
-
-    // user create 
+    // user create
 
     // user information database - users - role: 'user'
   };
   if (loading) {
-    return <Loader></Loader>
+    return <Loader></Loader>;
   }
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -80,78 +104,93 @@ const Signup = () => {
           </p>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          
           <div className="card-body">
-          <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-control">
-              <label className="label">
-                <span className="label-text">Name</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Name"
-                className="input input-bordered"
-                {...register("name", {required: true})}
-              />
-              {errors.name?.type === 'required' && <p className="text-red-500">This field is required</p> }
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                type="email"
-                placeholder="email"
-                className="input input-bordered"
-                {...register("email", {required: true})}
-              />
-              {errors.email?.type === 'required' && <p className="text-red-500">This field is required</p> }
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">photo url</span>
-              </label>
-              <input
-                type="text"
-                name="photo"
-                className="input input-bordered"
-                {...register("photo",{required:true})}
-              />
-              {errors.photo?.type === 'required' && <p className="text-red-500">This field is required</p> }
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                placeholder="********"
-                className="input input-bordered"
-                {...register("password", {required: true})}
-              />
-              {errors.password?.type === 'required' && <p className="text-red-500">This field is required</p> }
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Confirm Password</span>
-              </label>
-              <input
-                type="password"
-                placeholder="********"
-                className="input input-bordered"
-                {...register("confirm",{required:true})}
-              />
-              {errors.confirm?.type === 'required' && <p className="text-red-500">This field is required</p> }
-            </div>
-            <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary">Signup</button>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Name</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="input input-bordered"
+                  {...register("name", { required: true })}
+                />
+                {errors.name?.type === "required" && (
+                  <p className="text-red-500">This field is required</p>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Email</span>
+                </label>
+                <input
+                  type="email"
+                  placeholder="email"
+                  className="input input-bordered"
+                  {...register("email", { required: true })}
+                />
+                {errors.email?.type === "required" && (
+                  <p className="text-red-500">This field is required</p>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">photo url</span>
+                </label>
+                <input
+                  type="text"
+                  name="photo"
+                  className="input input-bordered"
+                  {...register("photo", { required: true })}
+                />
+                {errors.photo?.type === "required" && (
+                  <p className="text-red-500">This field is required</p>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Password</span>
+                </label>
+                <input
+                  type="password"
+                  placeholder="********"
+                  className="input input-bordered"
+                  {...register("password", { required: true })}
+                />
+                {errors.password?.type === "required" && (
+                  <p className="text-red-500">This field is required</p>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Confirm Password</span>
+                </label>
+                <input
+                  type="password"
+                  placeholder="********"
+                  className="input input-bordered"
+                  {...register("confirm", { required: true })}
+                />
+                {errors.confirm?.type === "required" && (
+                  <p className="text-red-500">This field is required</p>
+                )}
+              </div>
+              <div className="form-control mt-6">
+                <button type="submit" className="btn btn-primary" disabled={user}>
+                  Signup
+                </button>
+              </div>
             </form>
           </div>
-         
+
           <label className="label">
             <a className="label-text-alt">
-              Already have an account? Please <Link to="/login"> <span className="text-xl text-orange-500">Login</span></Link>
+              Already have an account? Please{" "}
+              <Link to="/login">
+                {" "}
+                <span className="text-xl text-orange-500">Login</span>
+              </Link>
             </a>
           </label>
         </div>
