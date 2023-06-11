@@ -16,9 +16,9 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation()
   const from = location.state?.from?.pathname || "/"
-  useEffect(()=>{
-    loadCaptchaEnginge(6); 
-  },[])
+  // useEffect(()=>{
+  //   loadCaptchaEnginge(6); 
+  // },[])
   const {
     register,
     handleSubmit,
@@ -98,7 +98,7 @@ const Login = () => {
                 />
                 {errors.password?.type === 'required' && <p className="text-red-700">This field is required</p>}
               </div>
-              <div className="form-control relative">
+              {/* <div className="form-control relative">
                 <label className="label">
                 < LoadCanvasTemplate />
                 </label>
@@ -111,16 +111,16 @@ const Login = () => {
                   
                 />
                 {errors.password?.type === 'required' && <p className="text-red-700">This field is required</p>}
-              </div>
+              </div> */}
               <div className="form-control mt-6">
                 <button type="submit" className="btn btn-primary">Login</button>
               </div>
             </div>
           </form>
           <label className="label">
-            <a className="label-text-alt link link-hover">
+            <p className="label-text-alt link link-hover">
               New in MEDLAND? please <Link to="/signup"> <span className="text-xl text-orange-600">Signup now</span></Link>
-            </a>
+            </p>
           </label>
             <SocialLogin></SocialLogin>
         </div>

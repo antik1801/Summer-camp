@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../providers/AuthProvider";
 import Loader from "../../components/Shared/Loader";
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 const img_hosting_token = import.meta.env.VITE_img_api_key;
 
 const Signup = () => {
@@ -185,14 +186,15 @@ const Signup = () => {
           </div>
 
           <label className="label">
-            <a className="label-text-alt">
+            <p className="label-text-alt">
               Already have an account? Please{" "}
               <Link to="/login">
                 {" "}
                 <span className="text-xl text-orange-500">Login</span>
               </Link>
-            </a>
+            </p>
           </label>
+          <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>
