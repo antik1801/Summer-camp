@@ -52,7 +52,7 @@ const NavBar = () => {
       </li>
       {user && (
         <li className="">
-          <Link to="/dashboard">
+          <Link to="/dashboard/myclasses">
            Dashboard +{cart?.length || 0}
           </Link>
         </li>
