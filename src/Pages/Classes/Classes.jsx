@@ -71,6 +71,7 @@ const Classes = () => {
             <div className="card-actions">
               <button
                 className="btn btn-primary"
+                disabled={!user}
                 onClick={() => handleAddToCart(course)}
               >
                 Book now
