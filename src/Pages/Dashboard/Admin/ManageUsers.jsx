@@ -57,6 +57,7 @@ const ManageUsers = () => {
   return (
     <div className="w-full">
       <div className="overflow-x-auto">
+        <p className="text-2xl font-semibold text-center">Total Users: +{users.length}</p>
         <table className="table">
           {/* head */}
           <thead>
@@ -97,8 +98,8 @@ const ManageUsers = () => {
                   <div className={`font-bold ${user.role === 'admin' ? 'text-green-400' : user.role === 'instructor' ? 'text-orange-400' : 'text-blue-400'}`}>{user.role}</div>
                 </td>
                 <th className="flex flex-col gap-2">
-                  <button className="btn btn-ghost bg-green-600" onClick={()=>handleUpdateAdmin(user)} disabled={adminDisabled}>Admin</button>
-                  <button className="btn btn-ghost bg-orange-500" onClick={()=>handleUpdateInstructor(user)} disabled={instructorDisabled}>
+                  <button className="btn btn-ghost bg-green-600" onClick={()=>handleUpdateAdmin(user)} disabled={adminDisabled || user?.role == 'admin'}>Admin</button>
+                  <button className="btn btn-ghost bg-orange-500" onClick={()=>handleUpdateInstructor(user)} disabled={instructorDisabled || user?.role == 'instructor'}>
                     Instructor
                   </button>
                 </th>
