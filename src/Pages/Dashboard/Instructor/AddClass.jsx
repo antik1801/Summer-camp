@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { useForm } from "react-hook-form";
 import Loader from "../../../components/Shared/Loader";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const img_hosting_token = import.meta.env.VITE_img_api_key;
 const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}
@@ -10,6 +12,7 @@ const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}
 const AddClass = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const [axiosSecure] = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -31,11 +34,30 @@ const AddClass = () => {
           const imgURL = imageResponse.data.display_url;
           console.log(imgURL);
           const courseItem = {
-            price: parseFloat(data.price), course: data.name, seats:parseInt(data.seats), students: parseInt(0), instructor: data.instructor, instructor_email: data.instructorMail, status: "pending", details: data.details, picture: imgURL
-          }
-          console.log(courseItem)
-          setLoading(false);
-          reset();
+            price: parseFloat(data.price),
+            course: data.name,
+            seats: parseInt(data.seats),
+            students: parseInt(0),
+            instructor: data.instructor,
+            instructor_email: data.instructorMail,
+            status: "pending",
+            details: data.details,
+            picture: imgURL,
+          };
+          axiosSecure
+            .post(`/instructor/addCourses`, courseItem)
+            .then((data) => {
+              console.log("After posting new data item", data.data);
+              if (data.data.insertedId) {
+                Swal.fire(
+                  "Course Added!",
+                  "Your course is pending!",
+                  "success"
+                );
+                setLoading(false);
+                reset();
+              }
+            });
         }
       });
   };
@@ -144,8 +166,10 @@ const AddClass = () => {
                   <label className="label">
                     <span className="label-text">Details</span>
                   </label>
-                  <textarea className="textarea textarea-bordered h-24 md:row-span-2" placeholder="Details"
-                  {...register("details", { required: true })}
+                  <textarea
+                    className="textarea textarea-bordered h-24 md:row-span-2"
+                    placeholder="Details"
+                    {...register("details", { required: true })}
                   ></textarea>
                   {errors.details && (
                     <span className="text-red-600">This field is required</span>
