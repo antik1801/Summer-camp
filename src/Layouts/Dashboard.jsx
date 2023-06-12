@@ -5,7 +5,7 @@ import { FaShoppingCart, FaAmazon, FaWallet, FaUser, FaCloudUploadAlt } from 're
 
 const Dashboard = () => {
   // TODO: load data from the server to have dynamic isAdmin based on Data
-  const isAdmin = true;
+  const isAdmin = false;
   const isInstructor = false;
   return (
     <Container>

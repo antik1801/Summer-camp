@@ -6,11 +6,16 @@ import Loader from "../components/Shared/Loader";
 const useCarts = (email) => {
   const { user, loading } = useContext(AuthContext);
 //   const {isLoading, refetch ,data: cart = [] } = useQueryClient();
+  const token = localStorage.getItem('access-token')
   const {isLoading, refetch ,data: cart = [] } = useQuery({
     queryKey: ["cart", user?.email],
     enabled: !loading && !!user?.email,
     queryFn: async () =>{
-        const res = await fetch(`https://medlife-server-navy.vercel.app/carts?email=${user.email}`)
+        const res = await fetch(`https://medlife-server-navy.vercel.app/carts?email=${user.email}`,{
+          headers: {
+            'authorization': `Bearer ${token}`,
+          },
+        })
         return res.json()
     }
   });
