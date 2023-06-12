@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import { AuthContext } from '../../../providers/AuthProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const SocialLogin = () => {
-    const {googleSignIn} = useContext(AuthContext)
+    const {googleSignIn,setLoading} = useContext(AuthContext)
     const navigate = useNavigate();
     const location = useLocation()
     const from = location.state?.from?.pathname || "/"
@@ -12,7 +13,7 @@ const SocialLogin = () => {
         googleSignIn()
         .then(result=>{
             const loggedInUser = result.user;
-            const savedUser = { name: loggedInUser.displayName, email: loggedInUser.email, role:"user" };
+            const savedUser = { name: loggedInUser.displayName, email: loggedInUser.email, role:"user",photo: loggedInUser.photoURL };
             fetch("https://medlife-server-navy.vercel.app/users", {
                 method: "POST",
                 headers: {
@@ -31,6 +32,10 @@ const SocialLogin = () => {
                 });
             console.log(loggedInUser);
             
+        })
+        .catch(error=>{
+            toast.error(error.message)
+            setLoading(false);
         })
     }
     return (

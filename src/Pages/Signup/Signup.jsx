@@ -52,7 +52,7 @@ const Signup = () => {
         const user = result.user;
         updateUserProfile(user, name, photo)
           .then(() => {
-            const savedUser = { name: data.name, email: data.email, role:"user" };
+            const savedUser = { name: data.name, email: data.email, role:"user", photo:user.photoURL };
             fetch("https://medlife-server-navy.vercel.app/users", {
               method: "POST",
               headers: {
