@@ -2,11 +2,22 @@ import React from "react";
 import Container from "../components/Shared/Container";
 import { NavLink, Outlet } from "react-router-dom";
 import { FaShoppingCart, FaAmazon, FaWallet, FaUser, FaCloudUploadAlt } from 'react-icons/fa';
+import useAdmin from "../hooks/useAdmin";
+import useInstructor from "../hooks/useInstructor";
+import Loader from "../components/Shared/Loader";
 
 const Dashboard = () => {
   // TODO: load data from the server to have dynamic isAdmin based on Data
-  const isAdmin = false;
-  const isInstructor = false;
+  // const isAdmin = false;
+  // const isInstructor = false;
+  const [isAdmin,isAdminLoading] = useAdmin();
+  const [isInstructor,isInstructorLoading] = useInstructor();
+  // if (isAdminLoading && !isInstructorLoading) {
+  //   return <Loader></Loader>
+  // }
+  // if (!isAdminLoading && isInstructorLoading) {
+  //   return <Loader></Loader>
+  // }
   return (
     <Container>
       <div className="drawer lg:drawer-open">

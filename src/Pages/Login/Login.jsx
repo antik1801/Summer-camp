@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import Loader from "../../components/Shared/Loader";
 import Swal from "sweetalert2";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
+import Lottie from "lottie-react";
+import loginAnimation from "../../assets/login.json"
 
 const Login = () => {
   const {signIn,loading,setLoading} = useContext(AuthContext);
@@ -65,11 +67,12 @@ const Login = () => {
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Login now!</h1>
-          <p className="py-6">
+          {/* <p className="py-6">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
-          </p>
+          </p> */}
+          <Lottie animationData={loginAnimation} loop={true} />
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <form onSubmit={handleSubmit(onSubmit)}>

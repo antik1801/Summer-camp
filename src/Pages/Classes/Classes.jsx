@@ -4,9 +4,13 @@ import Button from "../../components/Shared/Button";
 import Loader from "../../components/Shared/Loader";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import useInstructor from "../../hooks/useInstructor";
+import useAdmin from "../../hooks/useAdmin";
 
 const Classes = () => {
   const [courses, loading] = usePopularCourse();
+  const [isInstructor] = useInstructor();
+  const [isAdmin] = useAdmin();
   const { user } = useContext(AuthContext);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const approvedCourses = courses.filter((item) => item.status == "approved");
@@ -71,7 +75,7 @@ const Classes = () => {
             <div className="card-actions">
               <button
                 className="btn btn-primary"
-                disabled={!user}
+                disabled={!user || isInstructor || isAdmin}
                 onClick={() => handleAddToCart(course)}
               >
                 Book now

@@ -35,7 +35,7 @@ const SocialLogin = () => {
         })
         .catch(error=>{
             toast.error(error.message)
-            setLoading(false);
+            // setLoading(false);
         })
     }
     return (

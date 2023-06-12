@@ -14,6 +14,7 @@ import InstructorClasses from "../Pages/Dashboard/Instructor/InstructorClasses";
 import AddClass from "../Pages/Dashboard/Instructor/AddClass";
 import ManageClasses from "../Pages/Dashboard/Admin/ManageClasses";
 import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers";
+import CommonDashboard from "../Pages/Dashboard/CommonDashboard";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
         element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         errorElement: <Error></Error>,
         children: [
+          {
+            path:"common",
+            element: <CommonDashboard></CommonDashboard>,
+          },
           {
             path: "myclasses",
             element: <Myclasses></Myclasses>,
