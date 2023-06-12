@@ -10,7 +10,6 @@ const PopularCourses = () => {
   }
   const approvedCourses = courses.filter(item => item.status == 'approved')
   const sortedPopularCourse = approvedCourses.sort((a,b)=> b.students-a.students)
-  console.log(sortedPopularCourse,approvedCourses)
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 justify-center mx-auto">
       {sortedPopularCourse.slice(0,6).map((course) => (

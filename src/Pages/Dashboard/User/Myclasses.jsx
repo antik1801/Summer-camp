@@ -7,14 +7,11 @@ import Swal from "sweetalert2";
 
 const Myclasses = () => {
   const [cart, isLoading, refetch] = useCarts();
-//   console.log(cart)
     const totalPrice = parseFloat(cart.reduce((sum,item)=>sum+item.price,0)).toFixed(2)
     const totalPriceInFloat = parseFloat(totalPrice).toFixed(2);
   const handlePay = item =>{
-    console.log(item.price)
   }
   const handleDelete = item =>{
-    console.log(item._id)
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",

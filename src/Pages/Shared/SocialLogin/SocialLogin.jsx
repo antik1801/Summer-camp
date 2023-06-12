@@ -23,14 +23,13 @@ const SocialLogin = () => {
               })
                 .then((res) => res.json())
                 .then((data) => {
-                  console.log(data);
+        
                   if (data.insertedId) {
                    
                     navigate(from,{replace:true})
                   }
                   navigate(from,{replace:true})
                 });
-            console.log(loggedInUser);
             
         })
         .catch(error=>{

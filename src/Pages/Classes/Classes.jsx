@@ -14,12 +14,10 @@ const Classes = () => {
   const { user } = useContext(AuthContext);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const approvedCourses = courses.filter((item) => item.status == "approved");
-  console.log(approvedCourses);
   if (loading) {
     return <Loader></Loader>;
   }
   const handleAddToCart = (item) => {
-    console.log(item);
     setBtnDisabled(true);
     if (user && user.email) {
       const bookedCourse = {
@@ -41,7 +39,6 @@ const Classes = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           Swal.fire(
             "Added!",
             "Course successfully added to the cart!",

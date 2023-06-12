@@ -15,6 +15,8 @@ import AddClass from "../Pages/Dashboard/Instructor/AddClass";
 import ManageClasses from "../Pages/Dashboard/Admin/ManageClasses";
 import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers";
 import CommonDashboard from "../Pages/Dashboard/CommonDashboard";
+import AdminRoute from "./AdminRoute";
+import InstructorRoute from "./InstructorRoute";
 
 const router = createBrowserRouter([
   {
@@ -43,10 +45,12 @@ const router = createBrowserRouter([
         element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         errorElement: <Error></Error>,
         children: [
+          // Common routes
           {
             path:"common",
             element: <CommonDashboard></CommonDashboard>,
           },
+          // User routes
           {
             path: "myclasses",
             element: <Myclasses></Myclasses>,
@@ -59,21 +63,23 @@ const router = createBrowserRouter([
             path:"paymentHistory",
             element: <MyPaymentHistory></MyPaymentHistory>
           },
+          // Instructor routes
           {
             path:"instructorClasses",
-            element: <InstructorClasses></InstructorClasses>
+            element: <InstructorRoute><InstructorClasses></InstructorClasses></InstructorRoute>
           },
           {
             path:"instructorAddClass",
-            element:<AddClass></AddClass>
+            element:<InstructorRoute><AddClass></AddClass></InstructorRoute>,
           },
+          // Admin Routes
           {
             path:"manageClasses",
-            element:<ManageClasses></ManageClasses>,
+            element:<AdminRoute><ManageClasses></ManageClasses></AdminRoute> ,
           },
           {
             path:"manageUsers",
-            element:<ManageUsers></ManageUsers>
+            element:<AdminRoute><ManageUsers></ManageUsers></AdminRoute>,
           },
         ],
       },

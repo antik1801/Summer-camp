@@ -29,12 +29,10 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data)
     signIn(data.email, data.password)
     .then(result=>{
       const user = result.user;
       reset();
-      console.log(user)
       toast.success("user successfully loggedin")
       Swal.fire(
         'Congradulation!',

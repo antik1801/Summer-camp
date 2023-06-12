@@ -1,7 +1,6 @@
 import React from 'react';
 
 const CartItems = ({item, index}) => {
-    console.log(item)
     return (
         <tr>
         <th></th>

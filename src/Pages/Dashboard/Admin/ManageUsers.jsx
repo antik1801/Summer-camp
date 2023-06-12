@@ -7,14 +7,12 @@ import Swal from "sweetalert2";
 
 const ManageUsers = () => {
   //   const { user } = useContext(AuthContext);
-  //   console.log(user);
+  
   const [users, refetch, isLoading] = useUsers();
   const [adminDisabled, setAdminDisabled] = useState(false);
   const [instructorDisabled, setInstructorDisabled] = useState(false);
-  //   console.log(users);
 
   const handleDelete = (user) => {
-    console.log(user);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -31,7 +29,6 @@ const ManageUsers = () => {
           .then((res) => res.json())
           .then((data) => {
             refetch();
-            console.log(data);
             if (data.deletedCount > 0) {
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
             }
@@ -61,15 +58,12 @@ const ManageUsers = () => {
           .then((res) => res.json())
           .then((data) => {
             refetch()
-            console.log(data);
             if (data.modifiedCount > 0) {
               Swal.fire("Admin!", "User make admin successfull.", "success");
             }
           });
       }
     });
-
-    console.log(user);
   };
   const handleUpdateInstructor = (user) => {
     setInstructorDisabled(true);
@@ -93,14 +87,12 @@ const ManageUsers = () => {
           .then((res) => res.json())
           .then((data) => {
             refetch()
-            console.log(data);
             if (data.modifiedCount > 0) {
               Swal.fire("Instructor!", "User make instructor successfull.", "success");
             }
           });
       }
     });
-    console.log(user);
   };
   const handleUpdateUser = user =>{
     Swal.fire({
@@ -122,7 +114,6 @@ const ManageUsers = () => {
           .then((res) => res.json())
           .then((data) => {
             refetch()
-            console.log(data);
             if (data.modifiedCount > 0) {
               Swal.fire("User!", "Admin make user successfull.", "success");
             }
