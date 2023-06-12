@@ -9,8 +9,8 @@ const ManageUsers = () => {
   //   const { user } = useContext(AuthContext);
   //   console.log(user);
   const [users, refetch, isLoading] = useUsers();
-  const [adminDisabled,setAdminDisabled] = useState(false)
-  const [instructorDisabled,setInstructorDisabled] = useState(false)
+  const [adminDisabled, setAdminDisabled] = useState(false);
+  const [instructorDisabled, setInstructorDisabled] = useState(false);
   //   console.log(users);
 
   const handleDelete = (user) => {
@@ -26,7 +26,7 @@ const ManageUsers = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`https://medlife-server-navy.vercel.app/users/${user._id}`, {
-            method: 'DELETE'
+          method: "DELETE",
         })
           .then((res) => res.json())
           .then((data) => {
@@ -39,16 +39,96 @@ const ManageUsers = () => {
       }
     });
   };
-  const handleUpdateAdmin = user =>{
+  const handleUpdateAdmin = (user) => {
     setAdminDisabled(true);
     setInstructorDisabled(false);
-    console.log(user)
-  }
-  const handleUpdateInstructor = user =>{
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want this person make admin?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Make Admin!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(
+          `https://medlife-server-navy.vercel.app/users/admin/${user._id}`,
+          {
+            method: "PATCH",
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            refetch()
+            console.log(data);
+            if (data.modifiedCount > 0) {
+              Swal.fire("Admin!", "User make admin successfull.", "success");
+            }
+          });
+      }
+    });
+
+    console.log(user);
+  };
+  const handleUpdateInstructor = (user) => {
     setInstructorDisabled(true);
     setAdminDisabled(false);
-    console.log(user)
-
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want this person make instructor?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Make Instructor!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(
+          `https://medlife-server-navy.vercel.app/users/instructor/${user._id}`,
+          {
+            method: "PATCH",
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            refetch()
+            console.log(data);
+            if (data.modifiedCount > 0) {
+              Swal.fire("Instructor!", "User make instructor successfull.", "success");
+            }
+          });
+      }
+    });
+    console.log(user);
+  };
+  const handleUpdateUser = user =>{
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want this person make user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Make User!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(
+          `https://medlife-server-navy.vercel.app/users/user/${user._id}`,
+          {
+            method: "PATCH",
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            refetch()
+            console.log(data);
+            if (data.modifiedCount > 0) {
+              Swal.fire("User!", "Admin make user successfull.", "success");
+            }
+          });
+      }
+    });
   }
 
   if (isLoading) {
@@ -57,7 +137,9 @@ const ManageUsers = () => {
   return (
     <div className="w-full">
       <div className="overflow-x-auto">
-        <p className="text-2xl font-semibold text-center">Total Users: +{users.length}</p>
+        <p className="text-2xl font-semibold text-center">
+          Total Users: +{users.length}
+        </p>
         <table className="table">
           {/* head */}
           <thead>
@@ -95,12 +177,39 @@ const ManageUsers = () => {
                   <div className="font-bold">{user.email}</div>
                 </td>
                 <td>
-                  <div className={`font-bold ${user.role === 'admin' ? 'text-green-400' : user.role === 'instructor' ? 'text-orange-400' : 'text-blue-400'}`}>{user.role}</div>
+                  <div
+                    className={`font-bold ${
+                      user.role === "admin"
+                        ? "text-green-400"
+                        : user.role === "instructor"
+                        ? "text-orange-400"
+                        : "text-blue-400"
+                    }`}
+                  >
+                    {user.role}
+                  </div>
                 </td>
                 <th className="flex flex-col gap-2">
-                  <button className="btn btn-ghost bg-green-600" onClick={()=>handleUpdateAdmin(user)} disabled={adminDisabled || user?.role == 'admin'}>Admin</button>
-                  <button className="btn btn-ghost bg-orange-500" onClick={()=>handleUpdateInstructor(user)} disabled={instructorDisabled || user?.role == 'instructor'}>
+                  <button
+                    className="btn btn-ghost bg-green-600"
+                    onClick={() => handleUpdateAdmin(user)}
+                    disabled={user?.role == "admin"}
+                  >
+                    Admin
+                  </button>
+                  <button
+                    className="btn btn-ghost bg-orange-500"
+                    onClick={() => handleUpdateInstructor(user)}
+                    disabled={user?.role == "instructor"}
+                  >
                     Instructor
+                  </button>
+                  <button
+                    className="btn btn-ghost bg-blue-400"
+                    onClick={() => handleUpdateUser(user)}
+                    disabled={user?.role == "user"}
+                  >
+                    User
                   </button>
                 </th>
                 <th>
