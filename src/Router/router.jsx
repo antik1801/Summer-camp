@@ -17,6 +17,7 @@ import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers";
 import CommonDashboard from "../Pages/Dashboard/CommonDashboard";
 import AdminRoute from "./AdminRoute";
 import InstructorRoute from "./InstructorRoute";
+import Payment from "../Pages/Dashboard/User/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
           {
             path:"paymentHistory",
             element: <MyPaymentHistory></MyPaymentHistory>
+          },
+          {
+            path:"payment",
+            element: <Payment></Payment>,
           },
           // Instructor routes
           {

@@ -4,12 +4,14 @@ import { FaTrash, FaWallet } from "react-icons/fa";
 import CartItems from "./cartItems";
 import Loader from "../../../components/Shared/Loader";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const Myclasses = () => {
   const [cart, isLoading, refetch] = useCarts();
     const totalPrice = parseFloat(cart.reduce((sum,item)=>sum+item.price,0)).toFixed(2)
     const totalPriceInFloat = parseFloat(totalPrice).toFixed(2);
   const handlePay = item =>{
+    console.log(item)
   }
   const handleDelete = item =>{
     Swal.fire({
@@ -91,7 +93,7 @@ const Myclasses = () => {
                   <button className="btn btn-ghost" onClick={()=>handleDelete(item)}> <FaTrash size={25} className="text-red-500"/> </button>
                 </th>
                 <th>
-                  <button className="btn btn-ghost" onClick={()=>handlePay(item)}> <FaWallet size={25} className="text-green-400" ></FaWallet> </button>
+                 <Link to="/dashboard/payment"><button className="btn btn-ghost"> <FaWallet size={25} className="text-green-400" ></FaWallet> </button></Link> 
                 </th>
               </tr>
             

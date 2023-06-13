@@ -1,18 +1,43 @@
 import React from "react";
 import usePendingClasses from "../../../hooks/usePendingClasses";
 import { FaTrash,  } from 'react-icons/fa';
+import Loader from "../../../components/Shared/Loader";
+import Swal from "sweetalert2";
 
 const ManageClasses = () => {
-  const [pendingClasses,refetch] = usePendingClasses();
+  const [pendingClasses,refetch,isLoading] = usePendingClasses();
 //   console.log(pendingClasses);
-    const handleDelete = item =>{
-        console.log(item)
+    const handleReject = item =>{
+        fetch(`https://medlife-server-navy.vercel.app/rejectedCourses/${item._id}`,{
+            method: 'PATCH'
+        })
+        .then(res => res.json())
+        .then(data =>{
+            if (data.modifiedCount > 0) {
+                refetch()
+                Swal.fire("Rejected!", "You have rejected the course.", "error");
+            }
+           
+        })
     }
     const handleApprovedClass = item =>{
-        console.log(item)
+        fetch(`https://medlife-server-navy.vercel.app/courses/${item._id}`,{
+            method: 'PATCH'
+        })
+        .then(res => res.json())
+        .then(data =>{
+            if (data.modifiedCount > 0) {
+                refetch()
+                Swal.fire("Approved!", "You have approved the course.", "success");
+            }
+           
+        })
     }
     const handleSendFeedBack = item =>{
         console.log(item)
+    }
+    if (isLoading) {
+        return <Loader></Loader>
     }
   return (
     <div className="w-full">
@@ -37,7 +62,7 @@ const ManageClasses = () => {
             {/* row 1 */}
             {
                 pendingClasses.map((classes,index)=>
-                <tr>
+                <tr key={classes._id}>
               <th>{index + 1}</th>
               <td>
                 <div className="flex items-center space-x-3">
@@ -60,8 +85,8 @@ const ManageClasses = () => {
               <td>{classes.price}</td>
               <td>{classes.status}</td>
               <th className="flex flex-col gap-1">
-                <button className="btn btn-ghost bg-green-500" onClick={()=>handleApprovedClass(classes)}>Accept</button>
-                <button className="btn btn-ghost bg-red-500" onClick={()=>handleDelete(classes)}><FaTrash></FaTrash></button>
+                <button className="btn btn-ghost bg-green-500" onClick={()=>handleApprovedClass(classes)}>Approve</button>
+                <button className="btn btn-ghost bg-red-500" onClick={()=>handleReject(classes)}><FaTrash></FaTrash></button>
                 <button className="btn btn-ghost bg-blue-500" onClick={()=>handleSendFeedBack(classes)}>Feedback</button>
               </th>
             </tr>
